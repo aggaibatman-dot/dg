@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Dodge Performance Series — Scroll Experience</title>
+  <meta name="description" content="Interactive scroll-driven cinematic experience showcasing the Dodge Performance Series interior and exterior through frame-by-frame animation.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Dodge Performance Series — Scroll Experience">
+  <meta property="og:description" content="Interactive scroll-driven cinematic showcase of the Dodge Charger.">
+  <meta property="og:type" content="website">
+  <!-- Preconnect for external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loader">
+    <div class="loader-logo"><i class="fas fa-car-side loader-icon"></i></div>
+    <h2>Loading Experience</h2>
+    <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
+    <p id="loader-percent">0 %</p>
+    <p class="loader-tip">Preparing 384 cinematic frames…</p>
+  </div>
+
+  <!-- NOSCRIPT FALLBACK -->
+  <noscript>
+    <div style="position:fixed;inset:0;z-index:99999;background:#0a0a0f;color:#c084fc;display:flex;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:2rem;">
+      <p>Please enable JavaScript to view the Dodge Performance Series scroll experience.</p>
+    </div>
+  </noscript>
+
+  <!-- TOP NAV BAR -->
+  <nav id="top-nav">
+    <div class="nav-logo"><i class="fas fa-bolt"></i><span>DODGE</span></div>
+    <ul class="nav-links">
+      <li><a href="#" data-section="interior">Interior</a></li>
+      <li><a href="#" data-section="exterior">Exterior</a></li>
+      <li><a href="#" data-section="power">Power</a></li>
+      <li><a href="#" data-section="specs">Specs</a></li>
+    </ul>
+    <a href="https://www.dodge.com/bmo.html" target="_blank" rel="noopener" class="nav-cta">Build Yours</a>
+  </nav>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div id="scroll-progress"></div>
+
+  <!-- CANVAS -->
+  <canvas id="frame-canvas"></canvas>
+
+  <!-- VIGNETTE -->
+  <div id="vignette"></div>
+
+  <!-- MOTION BLUR OVERLAY -->
+  <div id="motion-blur"></div>
+
+  <!-- TRANSITION BLUR OVERLAY -->
+  <div id="transition-blur"></div>
+
+  <!-- HERO GLOW -->
+  <div class="hero-glow" id="hero-glow"></div>
+
+  <!-- HERO GRADIENT BG -->
+  <div id="hero-gradient"></div>
+
+  <!-- SCROLL HINT -->
+  <div id="scroll-hint">
+    <div class="hint-line"></div>
+    <span>Scroll to explore</span>
+    <div class="scroll-arrow"></div>
+  </div>
+
+  <!-- SECTION INDICATOR -->
+  <div id="section-indicator">
+    <div class="indicator-dot active" data-label="Interior"></div>
+    <div class="indicator-dot" data-label="Transition"></div>
+    <div class="indicator-dot" data-label="Exterior"></div>
+    <div class="indicator-dot" data-label="Power"></div>
+    <div class="indicator-dot" data-label="Hero"></div>
+  </div>
+
+  <!-- FRAME COUNTER -->
+  <div id="frame-counter">
+    <span class="fc-label">FRAME</span>
+    <span class="fc-num" id="fc-num">001</span>
+    <span class="fc-sep">/</span>
+    <span class="fc-total" id="fc-total">192</span>
+  </div>
+
+  <!-- ============ FIXED OVERLAYS ============ -->
+
+  <!-- OVERLAY: Intro splash -->
+  <div class="fixed-overlay" id="overlay-intro">
+    <div class="intro-badge">THE ALL-NEW 2026</div>
+    <h1 class="intro-title">Dodge<br><span>Charger</span></h1>
+    <p class="intro-tagline">Where muscle meets precision</p>
+    <div class="intro-specs">
+      <div class="intro-spec"><span class="spec-val">797</span><span class="spec-unit">HP</span></div>
+      <div class="intro-divider"></div>
+      <div class="intro-spec"><span class="spec-val">3.4</span><span class="spec-unit">0-60 MPH</span></div>
+      <div class="intro-divider"></div>
+      <div class="intro-spec"><span class="spec-val">204</span><span class="spec-unit">TOP MPH</span></div>
+    </div>
+  </div>
+
+  <!-- OVERLAY: Interior -->
+  <div class="fixed-overlay" id="overlay-interior">
+    <div class="section-tag"><i class="fas fa-steering-wheel"></i> INTERIOR EXPERIENCE</div>
+    <h1 class="overlay-title">Feel the Control</h1>
+    <p class="overlay-subtitle">Precision steering. Driver-focused cockpit.</p>
+    <p class="overlay-desc">Step inside a cabin designed for total command. Every surface, every control, every detail engineered to keep you connected to the road.</p>
+  </div>
+
+  <!-- CALLOUTS: Interior -->
+  <div class="fixed-callout callout steering" id="callout-steering">
+    <div class="callout-dot"></div>
+    <div class="callout-content"><div class="callout-label">Performance Grip Steering</div><div class="callout-detail">Flat-bottom racing wheel with integrated controls</div></div>
+  </div>
+  <div class="fixed-callout callout dashboard" id="callout-dashboard">
+    <div class="callout-dot"></div>
+    <div class="callout-content"><div class="callout-label">Digital Driver Display</div><div class="callout-detail">12.3" customizable instrument cluster</div></div>
+  </div>
+  <div class="fixed-callout callout ambient" id="callout-ambient">
+    <div class="callout-content"><div class="callout-label">Immersive Interior Lighting</div><div class="callout-detail">16-color ambient LED system</div></div>
+    <div class="callout-dot"></div>
+  </div>
+
+  <!-- OVERLAY: Interior Stats Panel -->
+  <div class="fixed-overlay stats-panel" id="overlay-interior-stats">
+    <div class="stats-grid">
+      <div class="stat-card"><i class="fas fa-display stat-icon"></i><span class="stat-number">12.3"</span><span class="stat-label">Digital Cluster</span></div>
+      <div class="stat-card"><i class="fas fa-volume-high stat-icon"></i><span class="stat-number">19</span><span class="stat-label">Harman Kardon Speakers</span></div>
+      <div class="stat-card"><i class="fas fa-temperature-low stat-icon"></i><span class="stat-number">3</span><span class="stat-label">Zone Climate Control</span></div>
+      <div class="stat-card"><i class="fas fa-couch stat-icon"></i><span class="stat-number">Heated</span><span class="stat-label">&amp; Ventilated Seats</span></div>
+    </div>
+  </div>
+
+  <!-- OVERLAY: Exterior -->
+  <div class="fixed-overlay" id="overlay-exterior">
+    <div class="section-tag"><i class="fas fa-road"></i> EXTERIOR DESIGN</div>
+    <h1 class="overlay-title">Unleash Power</h1>
+    <p class="overlay-subtitle">Engineered for speed and dominance</p>
+    <p class="overlay-desc">Every curve is sculpted for aerodynamic performance. Every line tells a story of raw, unbridled American muscle.</p>
+  </div>
+
+  <!-- CALLOUTS: Exterior -->
+  <div class="fixed-callout callout wheels" id="callout-wheels">
+    <div class="callout-dot"></div>
+    <div class="callout-content"><div class="callout-label">High-Performance Alloy Wheels</div><div class="callout-detail">20" forged aluminum with Brembo brakes</div></div>
+  </div>
+  <div class="fixed-callout callout body" id="callout-body">
+    <div class="callout-content"><div class="callout-label">Aerodynamic Muscle Design</div><div class="callout-detail">Active front splitter &amp; rear spoiler</div></div>
+    <div class="callout-dot"></div>
+  </div>
+  <div class="fixed-callout callout lights" id="callout-lights">
+    <div class="callout-dot"></div>
+    <div class="callout-content"><div class="callout-label">Signature LED Lighting</div><div class="callout-detail">Full-width racetrack tail lamp</div></div>
+  </div>
+
+  <!-- OVERLAY: Exterior Stats/Performance -->
+  <div class="fixed-overlay stats-panel" id="overlay-exterior-stats">
+    <div class="stats-grid">
+      <div class="stat-card"><i class="fas fa-gauge-high stat-icon"></i><span class="stat-number">797</span><span class="stat-label">Horsepower</span></div>
+      <div class="stat-card"><i class="fas fa-bolt stat-icon"></i><span class="stat-number">707</span><span class="stat-label">lb-ft Torque</span></div>
+      <div class="stat-card"><i class="fas fa-wind stat-icon"></i><span class="stat-number">6.2L</span><span class="stat-label">Supercharged V8</span></div>
+      <div class="stat-card"><i class="fas fa-stopwatch stat-icon"></i><span class="stat-number">3.4s</span><span class="stat-label">0-60 mph</span></div>
+    </div>
+  </div>
+
+  <!-- OVERLAY: Rear / Power Shot -->
+  <div class="fixed-overlay" id="overlay-rear">
+    <div class="rear-content">
+      <div class="section-tag"><i class="fas fa-fire-flame-curved"></i> RAW PERFORMANCE</div>
+      <h1 class="rear-main">Pure American Muscle</h1>
+      <p class="rear-sub">Raw power meets precision engineering</p>
+      <div class="rear-features">
+        <div class="rear-feature"><i class="fas fa-cogs"></i><span>8-Speed TorqueFlite Transmission</span></div>
+        <div class="rear-feature"><i class="fas fa-car-burst"></i><span>Launch Control System</span></div>
+        <div class="rear-feature"><i class="fas fa-temperature-arrow-up"></i><span>Performance Exhaust Headers</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERLAY: Final Hero -->
+  <div class="fixed-overlay" id="overlay-hero">
+    <div class="hero-content">
+      <div class="hero-badge">PERFORMANCE SERIES</div>
+      <h1 class="hero-title">Dodge Charger</h1>
+      <p class="hero-subtitle">Starting from <strong>$82,490</strong> MSRP</p>
+      <div class="hero-actions">
+        <a href="https://www.dodge.com" target="_blank" rel="noopener" class="cta-btn primary" id="hero-cta"><i class="fas fa-arrow-right"></i> Explore More</a>
+        <a href="https://www.dodge.com/bmo.html" target="_blank" rel="noopener" class="cta-btn secondary"><i class="fas fa-car"></i> Build &amp; Price</a>
+      </div>
+      <div class="hero-badges">
+        <div class="badge-item"><i class="fas fa-shield-halved"></i> 5-Year Warranty</div>
+        <div class="badge-item"><i class="fas fa-trophy"></i> #1 in Muscle Cars</div>
+        <div class="badge-item"><i class="fas fa-star"></i> IIHS Top Safety Pick</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCROLL SPACER -->
+  <div id="scroll-spacer"></div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
